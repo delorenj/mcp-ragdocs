@@ -1,11 +1,11 @@
 {
-  "name": "@qpd-v/mcp-server-ragdocs",
+  "name": "@delorenj/mcp-ragdocs",
   "version": "0.1.6",
   "description": "A Model Context Protocol server for fetching and storing documentation in a vector database, enabling semantic search and retrieval to augment LLM capabilities with relevant documentation context.",
   "private": false,
   "type": "module",
   "bin": {
-    "@qpd-v/mcp-server-ragdocs": "./build/index.js"
+    "@delorenj/mcp-ragdocs": "./build/index.js"
   },
   "files": [
     "build",
@@ -16,7 +16,7 @@
     "build": "tsc",
     "prepare": "npm run build",
     "watch": "tsc --watch",
-    "inspector": "npx @modelcontextprotocol/inspector build/index.js",
+    "inspector": "npx @delorenj/inspector build/index.js",
     "start": "node build/index.js"
   },
   "keywords": [
@@ -29,16 +29,16 @@
     "claude",
     "llm"
   ],
-  "author": "qpd-v",
+  "author": "Jarad DeLorenzo",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qpd-v/mcp-server-ragdocs.git"
+    "url": "git+https://github.com/delorenj/mcp-ragdocs.git"
   },
   "bugs": {
-    "url": "https://github.com/qpd-v/mcp-server-ragdocs/issues"
+    "url": "https://github.com/delorenj/mcp-ragdocs/issues"
   },
-  "homepage": "https://github.com/qpd-v/mcp-server-ragdocs#readme",
+  "homepage": "https://github.com/delorenj/mcp-ragdocs#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
     "@qdrant/js-client-rest": "^1.8.0",

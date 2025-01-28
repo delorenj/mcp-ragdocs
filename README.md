@@ -65,7 +65,7 @@ Current version: 0.1.6
 Install globally using npm:
 
 ```bash
-npm install -g @qpd-v/mcp-server-ragdocs
+npm install -g @delorenj/mcp-ragdocs
 ```
 
 This will install the server in your global npm directory, which you'll need for the configuration steps below.
@@ -83,6 +83,7 @@ This will install the server in your global npm directory, which you'll need for
 ### Option 1: Local Qdrant
 
 1. Using Docker (recommended):
+
 ```bash
 docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
 ```
@@ -107,12 +108,53 @@ AND/OR
 Add to your Roo-Code settings file (`%AppData%\Roaming\Code\User\globalStorage\rooveterinaryinc.roo-cline\settings\cline_mcp_settings.json`):
 
 1. Using npm global install (recommended):
+
 ```json
 {
-		"mcpServers": {
-				"ragdocs": {
-						"command": "node",
-      "args": ["C:/Users/YOUR_USERNAME/AppData/Roaming/npm/node_modules/@qpd-v/mcp-server-ragdocs/build/index.js"],
+  "mcpServers": {
+    "ragdocs": {
+      "command": "node",
+      "args": [
+        "C:/Users/YOUR_USERNAME/AppData/Roaming/npm/node_modules/@delorenj/mcp-ragdocs/build/index.js"
+      ],
+      "env": {
+        "QDRANT_URL": "http://localhost:6333",
+        "EMBEDDING_PROVIDER": "ollama",
+        "OLLAMA_URL": "http://localhost:11434"
+      }
+    }
+  }
+}
+```
+
+For OpenAI instead of Ollama:
+
+```json
+{
+  "mcpServers": {
+    "ragdocs": {
+      "command": "node",
+      "args": [
+        "C:/Users/YOUR_USERNAME/AppData/Roaming/npm/node_modules/@delorenj/mcp-ragdocs/build/index.js"
+      ],
+      "env": {
+        "QDRANT_URL": "http://localhost:6333",
+        "EMBEDDING_PROVIDER": "openai",
+        "OPENAI_API_KEY": "your-openai-api-key"
+      }
+    }
+  }
+}
+```
+
+2. Using local development setup:
+
+```json
+{
+  "mcpServers": {
+    "ragdocs": {
+      "command": "node",
+      "args": ["PATH_TO_PROJECT/mcp-ragdocs/build/index.js"],
       "env": {
         "QDRANT_URL": "http://127.0.0.1:6333",
         "EMBEDDING_PROVIDER": "ollama",
@@ -123,13 +165,43 @@ Add to your Roo-Code settings file (`%AppData%\Roaming\Code\User\globalStorage\r
 }
 ```
 
-For OpenAI instead of Ollama:
+### Claude Desktop Configuration
+
+Add to your Claude Desktop config file:
+
+- Windows: `%AppData%\Claude\claude_desktop_config.json`
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+1. Windows Setup with Ollama (using full paths):
+
 ```json
 {
-		"mcpServers": {
-				"ragdocs": {
-						"command": "node",
-      "args": ["C:/Users/YOUR_USERNAME/AppData/Roaming/npm/node_modules/@qpd-v/mcp-server-ragdocs/build/index.js"],
+  "mcpServers": {
+    "ragdocs": {
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\YOUR_USERNAME\\AppData\\Roaming\\npm\\node_modules\\@delorenj/mcp-ragdocs\\build\\index.js"
+      ],
+      "env": {
+        "QDRANT_URL": "http://127.0.0.1:6333",
+        "EMBEDDING_PROVIDER": "ollama",
+        "OLLAMA_URL": "http://localhost:11434"
+      }
+    }
+  }
+}
+```
+
+Windows Setup with OpenAI:
+
+```json
+{
+  "mcpServers": {
+    "ragdocs": {
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\YOUR_USERNAME\\AppData\\Roaming\\npm\\node_modules\\@delorenj/mcp-ragdocs\\build\\index.js"
+      ],
       "env": {
         "QDRANT_URL": "http://127.0.0.1:6333",
         "EMBEDDING_PROVIDER": "openai",
@@ -140,83 +212,23 @@ For OpenAI instead of Ollama:
 }
 ```
 
-2. Using local development setup:
-```json
-{
-		"mcpServers": {
-				"ragdocs": {
-						"command": "node",
-						"args": ["PATH_TO_PROJECT/mcp-ragdocs/build/index.js"],
-						"env": {
-								"QDRANT_URL": "http://127.0.0.1:6333",
-								"EMBEDDING_PROVIDER": "ollama",
-								"OLLAMA_URL": "http://localhost:11434"
-						}
-				}
-		}
-}
-```
+2. macOS Setup with Ollama:
 
-### Claude Desktop Configuration
-
-Add to your Claude Desktop config file:
-- Windows: `%AppData%\Claude\claude_desktop_config.json`
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-
-1. Windows Setup with Ollama (using full paths):
 ```json
 {
   "mcpServers": {
     "ragdocs": {
-      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "command": "/usr/local/bin/node",
       "args": [
-        "C:\\Users\\YOUR_USERNAME\\AppData\\Roaming\\npm\\node_modules\\@qpd-v/mcp-server-ragdocs\\build\\index.js"
+        "/usr/local/lib/node_modules/@delorenj/mcp-ragdocs/build/index.js"
       ],
       "env": {
-								"QDRANT_URL": "http://127.0.0.1:6333",
-								"EMBEDDING_PROVIDER": "ollama",
-								"OLLAMA_URL": "http://localhost:11434"
-						}
-				}
-		}
-}
-```
-
-Windows Setup with OpenAI:
-```json
-{
-		"mcpServers": {
-				"ragdocs": {
-						"command": "C:\\Program Files\\nodejs\\node.exe",
-						"args": [
-								"C:\\Users\\YOUR_USERNAME\\AppData\\Roaming\\npm\\node_modules\\@qpd-v/mcp-server-ragdocs\\build\\index.js"
-						],
-						"env": {
-								"QDRANT_URL": "http://127.0.0.1:6333",
-								"EMBEDDING_PROVIDER": "openai",
-								"OPENAI_API_KEY": "your-openai-api-key"
-						}
-				}
-		}
-}
-```
-
-2. macOS Setup with Ollama:
-```json
-{
-		"mcpServers": {
-				"ragdocs": {
-						"command": "/usr/local/bin/node",
-						"args": [
-								"/usr/local/lib/node_modules/@qpd-v/mcp-server-ragdocs/build/index.js"
-						],
-						"env": {
-								"QDRANT_URL": "http://127.0.0.1:6333",
-								"EMBEDDING_PROVIDER": "ollama",
-								"OLLAMA_URL": "http://localhost:11434"
-						}
-				}
-		}
+        "QDRANT_URL": "http://127.0.0.1:6333",
+        "EMBEDDING_PROVIDER": "ollama",
+        "OLLAMA_URL": "http://localhost:11434"
+      }
+    }
+  }
 }
 ```
 
@@ -225,38 +237,42 @@ Windows Setup with OpenAI:
 For either Cline or Claude Desktop, when using Qdrant Cloud, modify the env section:
 
 With Ollama:
+
 ```json
 {
-		"env": {
-				"QDRANT_URL": "https://your-cluster-url.qdrant.tech",
-				"QDRANT_API_KEY": "your-qdrant-api-key",
-				"EMBEDDING_PROVIDER": "ollama",
-				"OLLAMA_URL": "http://localhost:11434"
-		}
+  "env": {
+    "QDRANT_URL": "https://your-cluster-url.qdrant.tech",
+    "QDRANT_API_KEY": "your-qdrant-api-key",
+    "EMBEDDING_PROVIDER": "ollama",
+    "OLLAMA_URL": "http://localhost:11434"
+  }
 }
 ```
 
 With OpenAI:
+
 ```json
 {
-		"env": {
-				"QDRANT_URL": "https://your-cluster-url.qdrant.tech",
-				"QDRANT_API_KEY": "your-qdrant-api-key",
-				"EMBEDDING_PROVIDER": "openai",
-				"OPENAI_API_KEY": "your-openai-api-key"
-		}
+  "env": {
+    "QDRANT_URL": "https://your-cluster-url.qdrant.tech",
+    "QDRANT_API_KEY": "your-qdrant-api-key",
+    "EMBEDDING_PROVIDER": "openai",
+    "OPENAI_API_KEY": "your-openai-api-key"
+  }
 }
 ```
 
 ### Environment Variables
 
 #### Qdrant Configuration
+
 - `QDRANT_URL` (required): URL of your Qdrant instance
   - For local: http://localhost:6333
   - For cloud: https://your-cluster-url.qdrant.tech
 - `QDRANT_API_KEY` (required for cloud): Your Qdrant Cloud API key
 
 #### Embeddings Configuration
+
 - `EMBEDDING_PROVIDER` (optional): Choose between 'ollama' (default) or 'openai'
 - `EMBEDDING_MODEL` (optional):
   - For Ollama: defaults to 'nomic-embed-text'
@@ -267,11 +283,13 @@ With OpenAI:
 ## Available Tools
 
 1. `add_documentation`
+
    - Add documentation from a URL to the RAG database
    - Parameters:
      - `url`: URL of the documentation to fetch
 
 2. `search_documentation`
+
    - Search through stored documentation
    - Parameters:
      - `query`: Search query
@@ -286,16 +304,19 @@ With OpenAI:
 In Claude Desktop or any other MCP-compatible client:
 
 1. Add documentation:
+
 ```
 Add this documentation: https://docs.example.com/api
 ```
 
 2. Search documentation:
+
 ```
 Search the documentation for information about authentication
 ```
 
 3. List sources:
+
 ```
 What documentation sources are available?
 ```
@@ -303,22 +324,26 @@ What documentation sources are available?
 ## Development
 
 1. Clone the repository:
+
 ```bash
-git clone https://github.com/qpd-v/mcp-server-ragdocs.git
-cd mcp-server-ragdocs
+git clone https://github.com/delorenj/mcp-ragdocs.git
+cd mcp-ragdocs
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Build the project:
+
 ```bash
 npm run build
 ```
 
 4. Run locally:
+
 ```bash
 npm start
 ```
